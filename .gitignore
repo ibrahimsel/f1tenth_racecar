@@ -1,0 +1,8 @@
+build/
+install/
+log/
+.vscode
+*.txt
+*.rst
+*.cmake
+*.log

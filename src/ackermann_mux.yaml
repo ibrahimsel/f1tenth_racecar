@@ -1,0 +1,14 @@
+/ackermann_mux:
+  ros__parameters:
+    diagnostic_updater:
+      period: 1.0
+    topics:
+      joystick:
+        priority: 100
+        timeout: 0.2
+        topic: teleop
+      navigation:
+        priority: 10
+        timeout: 0.2
+        topic: drive
+    use_sim_time: false
