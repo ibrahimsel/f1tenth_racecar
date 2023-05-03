@@ -1,0 +1,4 @@
+pure_pursuit:
+ ros__parameters:
+   waypoints_file: /home/labs/rcws/logs/waypoints_file.csv
+   L: 1.0

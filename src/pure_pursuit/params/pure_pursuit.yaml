@@ -1,7 +1,0 @@
-pure_pursuit:
- ros__parameters:
-   pose_topic: amcl_pose
-   drive_topic: drive
-   dynamic_viz_topic: dynamic_env
-   waypoints_File: /home/labs/rcws/logs/waypoints_file.csv
-   lookahead_distance: 1.0
