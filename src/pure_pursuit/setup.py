@@ -11,7 +11,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py"))
+        (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
+        (os.path.join('share', package_name, 'config'), glob('config/*.yaml'))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -24,6 +25,7 @@ setup(
         'console_scripts': [
             'marker_publisher = pure_pursuit.marker_publisher:main',
             'pure_pursuit = pure_pursuit.pure_pursuit:main',
+            'safety_node = pure_pursuit.safety_node:main',
             'waypoint_logger = pure_pursuit.waypoint_logger:main'
         ],
     },

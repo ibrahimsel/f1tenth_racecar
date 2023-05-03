@@ -40,6 +40,7 @@ from rclpy.action import ActionClient
 from rclpy.node import Node
 from rclpy.parameter import PARAMETER_SEPARATOR_STRING
 from rosidl_runtime_py import set_message_fields
+from std_msgs.msg import Bool
 import sensor_msgs.msg
 
 
@@ -362,6 +363,7 @@ class JoyTeleop(Node):
         self.disable_nav_deadman = False
         self.switch_state = True
         self.switch_time = self.get_clock().now()
+
         # --------------------------------------------------------------------------------
 
         self.commands = []
@@ -397,6 +399,11 @@ class JoyTeleop(Node):
                                    durability=rclpy.qos.QoSDurabilityPolicy.VOLATILE)
         self._subscription = self.create_subscription(
             sensor_msgs.msg.Joy, 'joy', self.joy_callback, qos)
+        self.brake_subscription = self.create_subscription(Bool, '/emergency_braking', self.is_emergency_braking, 10)
+        self.emergency_brake = False
+
+    def is_emergency_braking(self, emergency_brake):
+        self.emergency_brake = emergency_brake.data
 
     def retrieve_config(self):
         config = {}
@@ -422,7 +429,13 @@ class JoyTeleop(Node):
             self.switch_state = False
             self.switch_time = self.get_clock().now()
             self.get_logger().info("Disable Autonomous Navigation Deadman Switch: {}".format(self.disable_nav_deadman))
-        
+
+        if (self.emergency_brake):
+            self.disable_nav_deadman = False
+            self.switch_state = False
+            self.switch_time = self.get_clock().now()
+            self.get_logger().info(f"I WAS ABOUT TO CRASH HOLY MOLY: autonomous driving enabled: {self.disable_nav_deadman}")
+
         if self.get_clock().now().nanoseconds - self.switch_time.nanoseconds > 500000000:
             self.switch_state = True 
 
